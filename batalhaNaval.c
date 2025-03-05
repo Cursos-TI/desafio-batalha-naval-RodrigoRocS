@@ -56,6 +56,41 @@ void add_navio_vert(int tabuleiro[10][10], int navio[3], int coluna) {
     }
 }
 
+// Função para adicionar navio na diagonal.
+void add_navio_diag(int tabuleiro[10][10], int navio[3], int coluna, char direcao) {
+    // Verifica se a coluna é válida.
+    if (coluna < 0 || coluna > 9) {
+        printf("Posição fora dos limites do tabuleiro.\n");
+        return;
+    }
+    // Valida a posição do navio no tabuleiro.
+    for (int i = 0; i < 3; i++) {
+        int y;
+
+        if (direcao == 'e') {
+            y = coluna - i; // Diagonal para a esquerda.
+        } else if (direcao == 'd') {
+            y = coluna + i; // Diagonal para a direita.
+        } else {
+            printf("Direção inválida. Use 'e' para esquerda ou 'd' para direita.\n");
+            return;
+        }
+
+        // Verifica se a posição está dentro dos limites e disponível.
+        if (navio[i] < 0 || navio[i] > 9 || y < 0 || y > 9 || tabuleiro[navio[i]][y] != 0) {
+            printf("Posição inválida ou já ocupada.\n");
+            return;
+        }
+    }
+    
+    
+    // Adiciona o navio ao tabuleiro de acordo com a direção escolhida.
+    for (int i = 0; i < 3; i++) {
+        int y = (direcao == 'e') ? coluna - i : coluna + i; // atribui a direção.
+        tabuleiro[navio[i]][y] = 3;
+    }    
+}
+
 int main() {
     // Nível Novato - Posicionamento dos Navios
     // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
@@ -78,9 +113,13 @@ int main() {
     // inicia a posição dos navios
     int navio1[3] = {1,2,3};
     int navio2[3] = {6,7,8};
+    int navio3[3] = {6,7,8};
+    int navio4[3] = {3,4,5};
 
     add_navio_horiz(tabuleiro, navio1, 2);
     add_navio_vert(tabuleiro, navio2, 8);
+    add_navio_diag(tabuleiro, navio3, 3, 'e');
+    add_navio_diag(tabuleiro, navio4, 7, 'd');
     exibir_tabuleiro(tabuleiro);
 
     // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
